@@ -47,3 +47,22 @@ def process_hourly_data(payload, time, current_day=True):
                 kelvin_hourly_temp.append(temp_kelvin)
 
     return kelvin_hourly_temp
+
+def get_current_data(latitude, longitude, current_time=int(time.time())):
+    
+    # create dictionary
+    current_weather = {}
+
+    # request current weather data
+    response = requests.get("https://api.darksky.net/forecast/9c6d85ba3ad3ef68e12f3cc210d0b026/" + 
+        "{},{},{}?exclude=flags,minutely,daily".format(latitude, longitude, current_time))
+    payload = response.json()
+    payload = payload['currently']
+
+    current_weather['temperature'] = payload['temperature']
+    current_weather['humidity'] = payload['humidity']
+    current_weather['pressure'] = payload['pressure']
+    current_weather['windSpeed'] = payload['windSpeed']
+    current_weather['windBearing'] = payload['windBearing']
+    
+    return current_weather
