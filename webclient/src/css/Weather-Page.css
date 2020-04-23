@@ -1,0 +1,15 @@
+
+.weatherSVG {
+    height: 50px;
+    width: 50px;
+    padding-bottom: 25px;
+    animation: weatherSVG-spin infinite 5s linear;
+}
+@keyframes weatherSVG-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-360deg);
+    }
+}
