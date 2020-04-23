@@ -3,7 +3,7 @@ from flask_restful import Resource, Api, reqparse
 from weather_api import get_hourly_data
 from weather_api import get_current_data
 from flask_cors import CORS
-from machine_learning import predict_hourly_weather
+from machine_learning import predict_hourly_temperature, predict_hourly_pressure, predict_hourly_humidity, predict_hourly_weather
 #from flask_jwt import JWT, jwt_required
 
 app = Flask(__name__)
@@ -14,13 +14,21 @@ class CurrentWeather(Resource):
     
     def get(self):
         
+        twentyFourHourWeather = get_hourly_data(43.1163, -75.4037)
+
         response = {
-            'twelveHourForecast': predict_hourly_weather(get_hourly_data(43.1163, -75.4037)),
-            'currentWeather': get_current_data(43.1163, -75.4037)
+            'twelveHourForecast': predict_hourly_weather(twentyFourHourWeather),
+            #{
+            #    'temperature': predict_hourly_temperature(twentyFourHourWeather['temperature']),
+            #    'pressure': predict_hourly_pressure(twentyFourHourWeather['pressure']),
+            #    'humidity': predict_hourly_humidity(twentyFourHourWeather['humidity']),
+            #},
+            'currentWeather': get_current_data(43.1163, -75.4037),
+            'darkSkyWeather': twentyFourHourWeather
         }
 
         return response
-        
+
 class CurrentWeatherSpecified(Resource):
 
     def get(self, location):
