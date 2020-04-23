@@ -20,37 +20,69 @@ const useStyles = makeStyles((theme) => ({
         flexWrap: 'wrap',
         justifyContent: 'space-around',
         overflow: 'hidden',
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: theme.palette.background.default,
         marginRight: '25px',
         borderRadius: '5px',
     },
     gridList: {
       width: '100%',
-      height: '500px',
+      height: '445px',
 
     },
     weatherSVG: {
-        height: '50px',
-        width: '50px',
+        height: '40px',
+        width: '40px',
         paddingBottom: '25px',
-        WebkitAnimation: 'spin 4s linear infinite',
+        paddingLeft: '30px',
+        paddingTop: '7px',
     },
     gridListTile: {
         display: 'flex',
         justifyContent: 'flex-start',
     },
     weatherData: {
-        fontSize: '30px',
-        marginLeft: '50px',
-        marginTop: '10px',
-        marginBottom: '31px',
+        fontSize: '20px',
+        marginTop: '18px',
     },
     numericalWeatherData: {
         display: 'flex',
         justifyContent: 'flex-start',
         marginLeft: 'auto',
-        marginRight: '50px',
-    }
+        marginRight: '75px',
+    },
+    gridListTileBar: {
+        height: '21px', 
+        borderRadius: '5px', 
+        backgroundColor: theme.palette.primary.dark,
+        marginLeft: '5px',
+        marginRight: '4px',
+        paddingTop: '1px',
+    },
+    listTitleBar: {
+        display: 'flex',
+        justifyContent: 'flex-start',
+        marginRight: 'auto',
+        paddingLeft: '45px',
+        backgroundColor: theme.palette.primary.main,
+        width: '100%',
+        height: '50px',
+        marginBottom: '2px',
+        borderBottomLeftRadius: '5px',
+        borderBottom: 'solid 2px',
+        borderBottomColor: theme.palette.primary.dark,
+    },
+    weatherDataTitleContainer: {
+        display: 'flex',
+        justifyContent: 'flex-start',
+        marginLeft: '45px',
+    },
+    weatherDataTitle: {
+        marginLeft: '60px',
+        fontSize: '25px',
+        marginTop: 'auto',
+        marginBottom: 'auto',
+        color: 'white',
+    },
 }))
 
 const HourlyWeatherGrid = (props) => {
@@ -58,23 +90,29 @@ const HourlyWeatherGrid = (props) => {
 
     return(
         <div className={classes.root}>
+            <div className={classes.listTitleBar}>
+                <div className={classes.weatherDataTitle}>Description</div>
+                <div className={classes.weatherDataTitleContainer}>
+                    <div className={classes.weatherDataTitle}>Temp</div>
+                    <div className={classes.weatherDataTitle}>Humidity</div>
+                    <div className={classes.weatherDataTitle}>Pressure</div>
+                    <div className={classes.weatherDataTitle}>Wind</div>
+                </div>
+            </div>
             <GridList className={classes.gridList}>
                 {props.hourlyWeatherData.map((data) => (
                     <GridListTile cols={2} style={{height: '80px'}}>
                         <div className={classes.gridListTile}>
                             <img className={classes.weatherSVG} src={sunSVG} />
-                            <div className={classes.weatherData}>Clear</div>
+                            <div className={classes.weatherData} style={{ marginLeft: '70px' }}>Clear</div>
                             <div className={classes.numericalWeatherData}>
-                                <div className={classes.weatherData}></div>
-                                <div style={{fontSize: '20px', marginTop: '5px'}}>{data.temperature}℉</div>
-                                <div className={classes.weatherData}>{data.humidity}%</div>
-                                <div className={classes.weatherData}>{data.pressure} hPa</div>
-                                <div className={classes.weatherData}>WD</div>
-                                <div className={classes.weatherData}>WS</div>
+                                <div className={classes.weatherData}>{data.temperature}</div>
+                                <div style={{fontSize: '20px', marginTop: '10px'}}>℉</div>
+                                <div className={classes.weatherData} style={{ marginLeft: '100px' }}>{data.humidity}%</div>
+                                <div className={classes.weatherData} style={{ marginLeft: '95px' }}>{data.pressure} hPa</div>
+                                <div className={classes.weatherData} style={{ marginLeft: '70px' }}>Wind</div>
                             </div>
-                            <GridListTileBar style={{height: '20px'}}
-                                title={data.time}>
-                            </GridListTileBar>
+                            <GridListTileBar className={classes.gridListTileBar} title={data.time}/>
                         </div>
                     </GridListTile>
                 ))}

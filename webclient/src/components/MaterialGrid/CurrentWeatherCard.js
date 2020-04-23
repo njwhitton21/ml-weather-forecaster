@@ -72,6 +72,7 @@ const useStyles = makeStyles((theme) => ({
     weatherData: {
         marginTop: '15px',
         marginBottom: '10px',
+        fontSize: '20px',
     },
     temperatureContainer: {
         height: '300px',
@@ -105,7 +106,7 @@ const CurrentWeatherCard = (props) => {
     const currentWeatherData = props.currentWeatherData;
 
     return(
-        <Paper className={props.className}>
+        <Paper className={props.className} style={{ backgroundImage: `url(${props.currentWeatherData.backgroundImage})` }}>
             <div className={classes.backgroundOverlay}>
                 <div className={classes.cardTop}>
                     {currentWeatherData.icon !== "-" ?

@@ -6,7 +6,6 @@ import HeaderBackground from '../../Weather-Background.jpg';
 import HourlyWeatherGrid from './HourlyWeatherGrid';
 import DailyWeatherGrid from './DailyWeatherGrid';
 import CurrentWeatherCard from './CurrentWeatherCard';
-import partCloudyJPG from '../../assets/partCloudy.jpg';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -18,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     topPaper: {
         padding: theme.spacing(2),
         textAlign: 'center',
-        height: 100,
+        height: '75px',
         backgroundImage: `url(${HeaderBackground})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
@@ -27,7 +26,6 @@ const useStyles = makeStyles(theme => ({
         textAlign: 'center',
         height: 495,
         marginLeft: '25px',
-        backgroundImage: `url(${partCloudyJPG})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
     },
@@ -51,6 +49,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const MaterialGrid = (props) => {
+    
     const classes = useStyles();
      
     return(
@@ -61,7 +60,9 @@ const MaterialGrid = (props) => {
                     </Grid>
                     <Grid item xs={6}>
                         <h3 className={classes.weatherHeader}>Current Weather</h3>
-                        <CurrentWeatherCard className={classes.leftPaper} currentWeatherData={props.currentWeatherData}/>
+                        <CurrentWeatherCard 
+                            className={classes.leftPaper} 
+                            currentWeatherData={props.currentWeatherData}/>
                     </Grid>
                     <Grid item xs={6}>
                         <h3 className={classes.weatherHeader}>Hourly Weather Forecast</h3>
