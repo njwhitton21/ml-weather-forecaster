@@ -3,9 +3,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import HeaderBackground from '../../Weather-Background.jpg';
-import HourlyWeatherGrid from './HourlyWeatherGrid';
-import DailyWeatherGrid from './DailyWeatherGrid';
-import CurrentWeatherCard from './CurrentWeatherCard';
+import HourlyWeatherGrid from './WeatherGridList/HourlyWeatherGrid';
+import DailyWeatherGrid from './WeatherGridList/DailyWeatherGrid';
+import CurrentWeatherCard from './WeatherCard/CurrentWeatherCard';
+import SearchBar from './SearchBar/SearchBar';
+import { LocationList }  from '../../constants/LocationList';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -56,20 +58,23 @@ const MaterialGrid = (props) => {
             <div className={classes.overflow}>
                 <Grid className={classes.root} container spacing={2} alignItems="center" justify="center">
                     <Grid item xs={12}>
-                        <Paper className={classes.topPaper}></Paper>
+                        <Paper className={classes.topPaper} style={{ marginTop: '-3px' }}>
+                            <SearchBar locationList={LocationList} handleLocationSelect={props.handleLocationSelect} handleLocationSearch={props.handleLocationSearch}/>
+                        </Paper>
                     </Grid>
                     <Grid item xs={6}>
                         <h3 className={classes.weatherHeader}>Current Weather</h3>
                         <CurrentWeatherCard 
                             className={classes.leftPaper} 
-                            currentWeatherData={props.currentWeatherData}/>
+                            currentWeatherData={props.currentWeatherData}
+                            location={props.location}/>
                     </Grid>
                     <Grid item xs={6}>
-                        <h3 className={classes.weatherHeader}>Hourly Weather Forecast</h3>
+                        <h3 className={classes.weatherHeader}>12-Hour Weather Forecast</h3>
                         <HourlyWeatherGrid hourlyWeatherData={props.hourlyWeatherData}/>
                     </Grid>
                     <Grid item xs={12}>
-                        <h3 className={classes.weatherHeader}>Daily Weather Forecast</h3>
+                        <h3 className={classes.weatherHeader}>7-Day Weather Forecast</h3>
                         <DailyWeatherGrid />
                     </Grid>
                 </Grid>

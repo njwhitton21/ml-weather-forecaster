@@ -16,11 +16,10 @@ import clearDayBackgroundJPG from '../../assets/clear-day-background.jpg';
 import clearNightBackgroundJPG from '../../assets/clear-night-background.jpg';
 import cloudyNightBackgroundJPG from '../../assets/cloudy-night-background.jpg';
 import partlyCloudyBackgroundJPG from '../../assets/partly-cloudy-background.jpg';
+import { findRenderedComponentWithType } from 'react-dom/test-utils';
 
 //Icons made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
 //Loading svg loading.io website free license 
-
-const primary = blueGrey[900];
 
 const theme = createMuiTheme({
     palette: {
@@ -56,18 +55,36 @@ class MainPage extends Component {
                 icon: '-',
                 description: '-',
                 backgroundImage: '',
+                highTemp: '-',
+                lowTemp: '-',
             },
+            location: 'Utica, NY',
+            searcBarInput: '',
         }
         console.log("MainPage constructor");
     }
 
     componentDidMount() {
-        fetch('http://192.168.1.145:5001/weather')
+        this.fetchWeatherData(this.state.location);
+    }
+
+    fetchWeatherData = (location) => {
+        fetch(`http://192.168.1.145:5001/weather/forecast/hourly/${location}`)
             .then(response => response.json())
-            .then(data => this.setState({ 
-                hourlyWeatherData: data.twelveHourForecast,
-                currentWeatherData: this.determineCurrentWeatherIcon(data.currentWeather), 
-            }));
+            .then(data => this.setState({ hourlyWeatherData: this.determineHourlyWeatherIcon(data.twelveHourForecast) }));
+        fetch(`http://192.168.1.145:5001/weather/${location}`)
+            .then(response => response.json())
+            .then(data => this.setState({ currentWeatherData: this.determineCurrentWeatherIcon(data.currentWeather) }));
+    }
+
+    handleLocationSelect = (event, value) => {
+        if(value !== null) {
+            this.setState({ location: value.title });
+        }
+    }
+
+    handleLocationSearch = () => {
+        this.fetchWeatherData(this.state.location);
     }
 
     handleDrawerOpen = () => {
@@ -78,10 +95,52 @@ class MainPage extends Component {
         this.setState({drawerOpen: false});
     }
 
+    determineHourlyWeatherIcon = (hourlyWeatherData) => {
+
+        hourlyWeatherData = hourlyWeatherData.map(data => {
+            let icon = "";
+            let description = "";
+            
+            switch(data.description) {
+                case 'clear':
+                    icon = sunSVG;
+                    description = "Clear";
+                    break;
+                case 'cloudy':
+                    icon = cloudySVG;
+                    description = "Cloudy";
+                    break;
+                case 'partly-cloudy':
+                    icon = partlyCloudySVG;
+                    description = "Partly Cloudy";
+                    break;
+                case 'rain':
+                    icon = rainSVG;
+                    description = "Rain";
+                    break;
+                case 'snow':
+                    icon = sunSVG;
+                    description = "Snow";
+                    break;
+                case 'thunderstorm':
+                    icon = stormSVG;
+                    description = "Storm";
+                    break;
+            }
+
+            data.icon = icon;
+            data.description = description;
+            
+            return data;
+        })
+
+        return hourlyWeatherData
+    }
+
     determineCurrentWeatherIcon = (currentWeatherData) => {
-        let icon = ""
-        let description = ""
-        let backgroundImage = ""
+        let icon = "";
+        let description = "";
+        let backgroundImage = "";
         
         switch(currentWeatherData.icon) {
             case 'clear-day':
@@ -122,6 +181,7 @@ class MainPage extends Component {
         currentWeatherData.icon = icon;
         currentWeatherData.description = description;
         currentWeatherData.backgroundImage = backgroundImage;
+        
         return currentWeatherData;
     }
 
@@ -134,7 +194,10 @@ class MainPage extends Component {
                     <MaterialDrawer open={this.state.drawerOpen} handleDrawerClosed={this.handleDrawerClosed}></MaterialDrawer>
                     <MaterialGrid 
                         hourlyWeatherData={this.state.hourlyWeatherData}
-                        currentWeatherData={this.state.currentWeatherData}></MaterialGrid>
+                        currentWeatherData={this.state.currentWeatherData}
+                        location={this.state.location}
+                        handleLocationSelect={this.handleLocationSelect}
+                        handleLocationSearch={this.handleLocationSearch}></MaterialGrid>
                 </ThemeProvider>
             </div>
         );

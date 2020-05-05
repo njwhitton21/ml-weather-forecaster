@@ -3,14 +3,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import sunSVG from '../../assets/sun.svg';
-import stormSVG from '../../assets/storm.svg';
-import rainSVG from '../../assets/raining.svg';
-import moonSVG from '../../assets/moon.svg';
-import parlyCloudySVG from '../../assets/cloudy.svg';
-import cloudySVG from '../../assets/cloud.svg';
-import '../../css/Weather-Page.css';
+import sunSVG from '../../../assets/sun.svg';
+import stormSVG from '../../../assets/storm.svg';
+import rainSVG from '../../../assets/raining.svg';
+import moonSVG from '../../../assets/moon.svg';
+import parlyCloudySVG from '../../../assets/cloudy.svg';
+import cloudySVG from '../../../assets/cloud.svg';
+import '../../../css/Weather-Page.css';
+import loadingSVG from '../../../assets/loading.svg';
 
 //https://www.flaticon.com/packs/weather-78
 
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'flex-start',
         marginLeft: 'auto',
-        marginRight: '75px',
+        marginRight: '32px',
     },
     gridListTileBar: {
         height: '21px', 
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'flex-start',
         marginRight: 'auto',
-        paddingLeft: '45px',
+        paddingLeft: '100px',
         backgroundColor: theme.palette.primary.main,
         width: '100%',
         height: '50px',
@@ -74,14 +74,15 @@ const useStyles = makeStyles((theme) => ({
     weatherDataTitleContainer: {
         display: 'flex',
         justifyContent: 'flex-start',
-        marginLeft: '45px',
+        marginLeft: '65px',
     },
     weatherDataTitle: {
-        marginLeft: '60px',
+        width: '140px',
         fontSize: '25px',
         marginTop: 'auto',
         marginBottom: 'auto',
         color: 'white',
+        textAlign: 'center',
     },
 }))
 
@@ -100,22 +101,24 @@ const HourlyWeatherGrid = (props) => {
                 </div>
             </div>
             <GridList className={classes.gridList}>
-                {props.hourlyWeatherData.map((data) => (
-                    <GridListTile cols={2} style={{height: '80px'}}>
-                        <div className={classes.gridListTile}>
-                            <img className={classes.weatherSVG} src={sunSVG} />
-                            <div className={classes.weatherData} style={{ marginLeft: '70px' }}>Clear</div>
-                            <div className={classes.numericalWeatherData}>
-                                <div className={classes.weatherData}>{data.temperature}</div>
-                                <div style={{fontSize: '20px', marginTop: '10px'}}>℉</div>
-                                <div className={classes.weatherData} style={{ marginLeft: '100px' }}>{data.humidity}%</div>
-                                <div className={classes.weatherData} style={{ marginLeft: '95px' }}>{data.pressure} hPa</div>
-                                <div className={classes.weatherData} style={{ marginLeft: '70px' }}>Wind</div>
+                {props.hourlyWeatherData.length !== 0 ?
+                    props.hourlyWeatherData.map((data) => (
+                        <GridListTile cols={2} style={{height: '80px'}}>
+                            <div className={classes.gridListTile}>
+                                <img className={classes.weatherSVG} src={data.icon} />
+                                <div className={classes.weatherData} style={{ marginLeft: '70px' }}>{data.description}</div>
+                                <div className={classes.numericalWeatherData}>
+                                    <div className={classes.weatherData} style={{ width: '140px', textAlign: 'center' }}>{data.temperature}℉</div>
+                                    <div className={classes.weatherData} style={{ width: '140px', textAlign: 'center' }}>{data.humidity}%</div>
+                                    <div className={classes.weatherData} style={{ width: '140px', textAlign: 'center' }}>{data.pressure} hPa</div>
+                                    <div className={classes.weatherData} style={{ width: '140px', textAlign: 'center' }}>{data.windDirection} {data.windSpeed} mph</div>
+                                </div>
+                                <GridListTileBar className={classes.gridListTileBar} title={data.time}/>
                             </div>
-                            <GridListTileBar className={classes.gridListTileBar} title={data.time}/>
-                        </div>
-                    </GridListTile>
-                ))}
+                        </GridListTile>
+                    ))
+                    : <img src={loadingSVG} style={{ margin: 'auto', height: '60%' }}/>
+                }
             </GridList>
         </div>
     );

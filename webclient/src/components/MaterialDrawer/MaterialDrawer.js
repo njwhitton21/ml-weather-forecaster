@@ -9,8 +9,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/Inbox';
-import MailIcon from '@material-ui/icons/Mail';
+import LooksIcon from '@material-ui/icons/Looks';
 
 const drawerWidth = 240;
 
@@ -28,6 +27,7 @@ const MaterialDrawer = (props) => {
 
     const classes = useStyles();
     const theme = useTheme();
+    const sidebarItems = ['Current Weather', '12-Hour Forecast', '7-Day Forecast', 'Radar']
 
     return(
         <Drawer
@@ -46,10 +46,10 @@ const MaterialDrawer = (props) => {
             </div>
             <Divider />
             <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                <ListItem button key={text}>
-                    <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                    <ListItemText primary={text} />
+            {sidebarItems.map(itemText => (
+                <ListItem button key={itemText}>
+                    <ListItemText primary={itemText} />
+                    <ListItemIcon><LooksIcon></LooksIcon></ListItemIcon>
                 </ListItem>
             ))}
             </List>

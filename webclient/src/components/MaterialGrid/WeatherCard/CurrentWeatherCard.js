@@ -1,13 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import sunSVG from '../../assets/sun.svg';
-import stormSVG from '../../assets/storm.svg';
-import rainSVG from '../../assets/raining.svg';
-import moonSVG from '../../assets/moon.svg';
-import partlyCloudySVG from '../../assets/cloudy.svg';
-import cloudySVG from '../../assets/cloud.svg';
-import loadingSVG from '../../assets/loading.svg';
+import loadingSVG from '../../../assets/loading.svg';
 
 const useStyles = makeStyles((theme) => ({
     svgImage: {
@@ -38,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     locationTitle: {
         fontSize: '40px',
         marginBottom: 'auto',
-        marginLeft: '25px',
+        marginLeft: '60px',
         color: 'black',
     },
     weatherDataContainerLeft: {
@@ -63,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
         color: 'black',
     },
     weatherDataTitle: {
-        borderBottom: 'solid rgba(97, 97, 97, 0.9) 2px',
+        borderBottom: 'solid rgba(31, 31, 31, 0.48) 2px',
         fontWeight: 'bold',
         fontSize: '25px',
         marginTop: '10px',
@@ -120,18 +114,24 @@ const CurrentWeatherCard = (props) => {
                         }
                         <div className={classes.highLowTemp}>
                             <div className={classes.weatherDataContainerInner}>
-                                <div className={classes.weatherDataTitle}>Hi</div>
-                                <div className={classes.weatherData}>66℉</div>
+                                <div className={classes.weatherDataTitle}>High</div>
+                                {currentWeatherData.highTemp !== "-" ?
+                                    <div className={classes.weatherData}>{currentWeatherData.highTemp}℉</div>
+                                    : <img src={loadingSVG} style={{ height: '25px', width: '25px', marginTop: '15px' }}/>
+                                }
                             </div>
                             <div className={classes.weatherDataContainerRight}>
-                                <div className={classes.weatherDataTitle}>Lo</div>
-                                <div className={classes.weatherData}>32℉</div>
+                                <div className={classes.weatherDataTitle}>Low</div>
+                                {currentWeatherData.lowTemp !== "-" ?
+                                    <div className={classes.weatherData}>{currentWeatherData.lowTemp}℉</div>
+                                    : <img src={loadingSVG} style={{ height: '25px', width: '25px', marginTop: '15px' }}/>
+                                }
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className={classes.cardMiddle}>
-                    <div className={classes.locationTitle}>Westmoreland, New York</div>
+                    <div className={classes.locationTitle}>{props.location}</div>
                 </div>
                 <div style={{ height: '95px' }}>
                     <div className={classes.cardBottom}>
