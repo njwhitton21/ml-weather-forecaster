@@ -69,22 +69,36 @@ class MainPage extends Component {
     }
 
     fetchWeatherData = (location) => {
+        this.setState({ 
+            hourlyWeatherData: [],
+            currentWeatherData: {
+                temperature: '-',
+                pressure: '-',
+                humidity: '-',
+                windSpeed: '-',
+                icon: '-',
+                description: '-',
+                backgroundImage: '',
+                highTemp: '-',
+                lowTemp: '-',
+            },
+        })
         fetch(`http://192.168.1.145:5001/weather/forecast/hourly/${location}`)
             .then(response => response.json())
             .then(data => this.setState({ hourlyWeatherData: this.determineHourlyWeatherIcon(data.twelveHourForecast) }));
         fetch(`http://192.168.1.145:5001/weather/${location}`)
             .then(response => response.json())
-            .then(data => this.setState({ currentWeatherData: this.determineCurrentWeatherIcon(data.currentWeather) }));
+            .then(data => this.setState({ currentWeatherData: this.determineCurrentWeatherIcon(data.currentWeather), location: location }));
     }
 
     handleLocationSelect = (event, value) => {
         if(value !== null) {
-            this.setState({ location: value.title });
+            this.setState({ searchBarInput: value.title });
         }
     }
 
     handleLocationSearch = () => {
-        this.fetchWeatherData(this.state.location);
+        this.fetchWeatherData(this.state.searchBarInput);
     }
 
     handleDrawerOpen = () => {
