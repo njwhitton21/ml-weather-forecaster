@@ -61,7 +61,6 @@ class MainPage extends Component {
             location: 'Utica, NY',
             searcBarInput: '',
         }
-        console.log("MainPage constructor");
     }
 
     componentDidMount() {
@@ -83,10 +82,10 @@ class MainPage extends Component {
                 lowTemp: '-',
             },
         })
-        fetch(`http://192.168.1.145:5001/weather/forecast/hourly/${location}`)
+        fetch(`http://localhost:5001/weather/forecast/hourly/${location}`)
             .then(response => response.json())
             .then(data => this.setState({ hourlyWeatherData: this.determineHourlyWeatherIcon(data.twelveHourForecast) }));
-        fetch(`http://192.168.1.145:5001/weather/${location}`)
+        fetch(`http://localhost:5001/weather/${location}`)
             .then(response => response.json())
             .then(data => this.setState({ currentWeatherData: this.determineCurrentWeatherIcon(data.currentWeather), location: location }));
     }

@@ -102,4 +102,4 @@ api.add_resource(HourlyWeatherForecastSpecified, '/weather/forecast/hourly/<stri
 api.add_resource(DailyWeatherForecast, '/weather/forecast/daily')
 api.add_resource(DailyWeatherForecastSpecified, '/weather/forecast/daily/<string:location>')
 
-app.run(host='0.0.0.0', port=5001, debug=True)
+app.run(host='0.0.0.0', port=5001)
