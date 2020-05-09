@@ -82,10 +82,10 @@ class MainPage extends Component {
                 lowTemp: '-',
             },
         })
-        fetch(`http://localhost:5001/weather/forecast/hourly/${location}`)
+        fetch(`https://ml-weather-forecasting-api.herokuapp.com/weather/forecast/hourly/${location}`)
             .then(response => response.json())
             .then(data => this.setState({ hourlyWeatherData: this.determineHourlyWeatherIcon(data.twelveHourForecast) }));
-        fetch(`http://localhost:5001/weather/${location}`)
+        fetch(`https://ml-weather-forecasting-api.herokuapp.com/weather/${location}`)
             .then(response => response.json())
             .then(data => this.setState({ currentWeatherData: this.determineCurrentWeatherIcon(data.currentWeather), location: location }));
     }
